@@ -1,0 +1,74 @@
+// Add-Ons
+ADDON Print_1x2f_Default
+ADDON Print_2x2f_Default
+ADDON Print_2x2r_Default
+ADDON Server_VoxelGoreModified
+ADDON Weapon_Gun
+ADDON Weapon_Sword
+ADDON GameMode_Shot_in_the_Dark
+ADDON Server_ChatEval
+
+// Environment
+$EnvGuiServer::SimpleMode 0
+$EnvGuiServer::SkyFile Add-Ons/Sky_Blank/white.dml
+$EnvGuiServer::WaterFile NONE
+$EnvGuiServer::GroundFile 
+$EnvGuiServer::SunFlareTopTexture base/lighting/corona2.png
+$EnvGuiServer::SunFlareBottomTexture base/lighting/corona2.png
+$EnvGuiServer::DayOffset 
+$EnvGuiServer::DayLength 300
+$EnvGuiServer::DayCycleEnabled 0
+$EnvGuiServer::DayCycle Add-Ons/DayCycle_Default/default.daycycle
+$EnvGuiServer::SunAzimuth 250
+$EnvGuiServer::SunElevation 35
+$EnvGuiServer::DirectLightColor 0.000000 0.000000 0.000000 1.000000
+$EnvGuiServer::AmbientLightColor 0.000000 0.000000 0.000000 1.000000
+$EnvGuiServer::ShadowColor 0.000000 0.000000 0.000000 1.000000
+$EnvGuiServer::SunFlareColor 1.000000 1.000000 1.000000 1.000000
+$EnvGuiServer::SunFlareSize 0
+$EnvGuiServer::VisibleDistance 600
+$EnvGuiServer::FogDistance 400
+$EnvGuiServer::FogHeight 
+$EnvGuiServer::FogColor 0.000000 0.000000 0.000000 1.000000
+$EnvGuiServer::WaterColor 255 255 255 128
+$EnvGuiServer::WaterHeight 5
+$EnvGuiServer::UnderWaterColor 0 0 128 128
+$EnvGuiServer::SkyColor 0.000000 0.000000 0.000000 1.000000
+$EnvGuiServer::WaterScrollX 0
+$EnvGuiServer::WaterScrollY 0
+$EnvGuiServer::GroundColor 0.000000 0.000000 0.000000 0.000000
+$EnvGuiServer::GroundScrollX 0
+$EnvGuiServer::GroundScrollY 0
+$EnvGuiServer::VignetteMultiply 0
+$EnvGuiServer::VignetteColor 0.000000 0.000000 0.000000 0.392157
+
+// Mini-Game
+$MiniGame::Enabled 1
+$MiniGame::GameColor 0
+$MiniGame::InviteOnly 0
+$MiniGame::IncludeAllPlayersBricks 0
+$MiniGame::PlayersUseOwnBricks 0
+
+$MiniGame::TimeLimit 0
+
+$MiniGame::Points_BreakBrick 0
+$MiniGame::Points_PlantBrick 0
+$MiniGame::Points_KillPlayer 0
+$MiniGame::Points_KillSelf 0
+$MiniGame::Points_Die 0
+
+$MiniGame::RespawnTime 1
+$MiniGame::VehicleRespawnTime 5
+$MiniGame::BrickRespawnTime 360
+
+$MiniGame::UseSpawnBricks 1
+$MiniGame::FallingDamage 1
+$MiniGame::WeaponDamage 1
+$MiniGame::SelfDamage 1
+$MiniGame::VehicleDamage 1
+$MiniGame::BrickDamage 0
+$MiniGame::EnableWand 0
+$MiniGame::EnableBuilding 0
+$MiniGame::EnablePainting 0
+
+$MiniGame::PlayerDataBlockName Shot in the Dark Normal Player

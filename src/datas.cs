@@ -13,6 +13,11 @@ datablock StaticShapeData(sitd_table)
 	shapeFile = "Add-Ons/GameMode_Shot_in_the_Dark/data/table.dts";
 };
 
+datablock StaticShapeData(sitd_cylinder)
+{
+	shapeFile = "Add-Ons/GameMode_Shot_in_the_Dark/data/cylinder.dts";
+};
+
 datablock fxLightData(sitd_light_top : PlayerLight)
 {
 	FlareOn = "0";

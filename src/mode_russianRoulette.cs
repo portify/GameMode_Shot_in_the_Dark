@@ -47,15 +47,15 @@ function SitdRussianRoulette::step1(%script)
     %who.client.play2D(weaponSwitchSound);
 
     %script.victim = %who;
-    $DefaultMiniGame.centerPrintAll("<font:verdana:18>\c3" @ %who.client.name @ " \c6has 7 seconds to pull the trigger.");
-    centerPrint(%who.client, "<font:verdana:24>\c0Suicide to pull the trigger. You have 7 seconds.\nYou'll get a proper revolver later.");
-    %script.event = %script.schedule(7000, step1Timeout);
+    $DefaultMiniGame.centerPrintAll("<font:verdana:18>\c3" @ %who.client.name @ " \c6has 5 seconds to pull the trigger.");
+    centerPrint(%who.client, "<font:verdana:24>\c0Suicide to pull the trigger. You have 5 seconds.\nYou'll get a proper revolver later.");
+    %script.event = %script.schedule(5000, step1Timeout);
 }
 
 function SitdRussianRoulette::step1Timeout(%script)
 {
-    %victim = %script.rouletteVictim;
-    %script.rouletteVictim = "";
+    %victim = %script.victim;
+    %script.victim = "";
 
     if (!isObject(%victim) || %victim.isDead)
     {

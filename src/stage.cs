@@ -56,4 +56,5 @@ function createStage()
 	$light2 = createLight(sitd_light_top, "4 8 8.2");
     $light2.setScopeAlways();
 	//createLight(CyanLight, "11 4 6");
+	$instantGroup = %oldInstantGroup;
 }

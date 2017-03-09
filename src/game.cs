@@ -81,6 +81,7 @@ function sitdPrepareGame()
     {
         class = "SitdWhoDidIt";
         // class = "SitdRussianRoulette";
+        // class = "SitdShotInTheDark";
     };
 
     seatPlayers();

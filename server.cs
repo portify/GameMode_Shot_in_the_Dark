@@ -13,6 +13,7 @@ exec("./src/stage.cs");
 exec("./src/util.cs");
 exec("./src/mode_whoDidIt.cs");
 exec("./src/mode_russianRoulette.cs");
+exec("./src/mode_shotInTheDark.cs");
 exec("./src/game.cs");
 
 if (!isObject(MissionCleanup))

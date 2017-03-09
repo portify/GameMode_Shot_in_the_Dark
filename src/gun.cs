@@ -8,6 +8,7 @@ datablock ProjectileData(sitd_gun_projectile : GunProjectile)
 
 datablock ShapeBaseImageData(sitd_gun_image : GunImage)
 {
+    shapeFile = "Add-Ons/GameMode_Shot_in_the_Dark/data/magnum.dts";
     projectile = sitd_gun_projectile;
     stateEjectShell[2] = "0";
     stateEmitter[2] = "";

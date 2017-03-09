@@ -10,6 +10,22 @@ function SitdWhoDidIt::onRemove(%script)
 
 function SitdWhoDidIt::onStart(%script)
 {
+    %maxPlayer = -1;
+	for (%i = 0; %i < $DefaultMiniGame.numMembers && %i < 16; %i++)
+	{
+		%client = $DefaultMiniGame.member[%i];
+        %player = %client.player;
+
+        if (%player.chair !$= "")
+            %player[%maxPlayer++] = %player;
+	}
+
+    %killer = %player[getRandom(%maxPlayer)];
+    %killer.killer = "1";
+    %script.killerPlayer = %killer;
+    %script.killerClient = %killer.client;
+    %script.killerName = %killer.client.getPlayerName();
+
     $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Get ready...");
     %script.event = %script.schedule(3000, step1);
 }
@@ -29,7 +45,7 @@ function SitdWhoDidIt::step1(%script)
     fixArmReady(%script.killerPlayer);
 
     $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer is choosing somebody to kill.");
-    centerPrint($%script.killerClient, "<font:verdana:24>\c6You have 10 seconds to kill somebody.");
+    centerPrint(%script.killerClient, "<font:verdana:24>\c6You have 10 seconds to kill somebody.");
     %script.event = %script.schedule(10000, step1Timeout);
 }
 

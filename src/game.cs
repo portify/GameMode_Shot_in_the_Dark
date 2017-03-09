@@ -14,7 +14,6 @@ function seatPlayers()
 		%a[%j] = %x;
 	}
 	// place
-    %maxPlayer = -1;
 	for (%i = 0; %i < $DefaultMiniGame.numMembers && %i < 16; %i++)
 	{
 		%client = $DefaultMiniGame.member[%i];
@@ -41,19 +40,7 @@ function seatPlayers()
         %client.applyBodyParts();
         %client.applyBodyColors();
         %client.setControlObject(%player);
-
-        %player[%maxPlayer++] = %player;
 	}
-
-    switch$ ($DefaultMiniGame.currentMode)
-    {
-    case "whoDidIt":
-        %killer = %player[getRandom(%maxPlayer)];
-        %killer.killer = "1";
-        $DefaultMiniGame.killerPlayer = %killer;
-        $DefaultMiniGame.killerClient = %killer.client;
-        $DefaultMiniGame.killerName = %killer.client.getPlayerName();
-    }
 }
 
 function sitdEndGame()
@@ -122,7 +109,9 @@ package ShotInTheDark
         if (%miniGame.owner)
             return Parent::checkLastManStanding(%miniGame);
         
-        if ($DefaultMiniGame.currentMode $= "")
+        %script = $DefaultMiniGame.currentMode;
+        
+        if (!isObject(%script))
             return "0";
         
         %alive = 0;
@@ -137,7 +126,7 @@ package ShotInTheDark
             if (!%player || %player.chair $= "")
                 continue;
             
-            if ($DefaultMiniGame.currentMode.class $= "SitdWhoDidIt")
+            if (%script.class $= "SitdWhoDidIt")
             {
                 if (%player.killer)
                     %killerAlive = 1;
@@ -149,27 +138,27 @@ package ShotInTheDark
             %last = %client;
         }
 
-        if ($DefaultMiniGame.currentMode.class $= "SitdWhoDidIt")
+        if (%script.class $= "SitdWhoDidIt")
         {
             if (%killerAlive && !%otherAlive)
             {
-                %miniGame.centerPrintAll("<font:verdana:24>\c0The killer (\c3" @ %miniGame.killerName @ "\c0) won!");
+                %miniGame.centerPrintAll("<font:verdana:24>\c0The killer (\c3" @ %script.killerName @ "\c0) won!");
                 return sitdEndGame();
             }
 
             if (!%killerAlive && %otherAlive)
             {
-                %miniGame.centerPrintAll("<font:verdana:24>\c2The killer (\c3" @ %miniGame.killerName @ "\c3) has been eliminated!");
+                %miniGame.centerPrintAll("<font:verdana:24>\c2The killer (\c3" @ %script.killerName @ "\c3) has been eliminated!");
                 return sitdEndGame();
             }
         }
 
-        if (%alive == 2 && $DefaultMiniGame.currentMode.class !$= "SitdRussianRoulette")
+        if (%alive == 2 && %script.class !$= "SitdRussianRoulette")
         {
             sitdLightOn();
             cancel($DefaultMiniGame.gameSchedule);
-            cancel($DefaultMiniGame.currentMode.event);
-            $DefaultMiniGame.currentMode.waitingForKill = "";
+            cancel(%script.event);
+            %script.waitingForKill = "";
             %miniGame.centerPrintAll("<font:verdana:36><color:f07070>Duel!");
 
             for (%i = 0; %i < %miniGame.numMembers; %i++)

@@ -44,7 +44,10 @@ function sitdLightOn()
 
 function sitdScopeToKillerAndSpecs(%object)
 {
-    %object.scopeToClient($DefaultMiniGame.killerClient);
+    %script = $DefaultMiniGame.currentMode;
+    
+    if (isObject(%script.killerClient))
+        %object.scopeToClient(%script.killerClient);
 
     for (%i = 0; %i < ClientGroup.getCount(); %i++)
     {

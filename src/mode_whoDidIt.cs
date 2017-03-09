@@ -46,20 +46,33 @@ function SitdWhoDidIt::step1(%script)
     fixArmReady(%script.killerPlayer);
 
     $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer is choosing somebody to kill.");
-    centerPrint(%script.killerClient, "<font:verdana:24>\c6You have 10 seconds to kill somebody.");
+
+    if (%script.killerWaited)
+        centerPrint(%script.killerClient, "<font:verdana:24>\c0You have 10 seconds to kill somebody.");
+    else
+        centerPrint(%script.killerClient, "<font:verdana:24>\c0You have 10 seconds to kill somebody.\n\c3You may choose not to kill once.");
+
     %script.event = %script.schedule(10000, step1Timeout);
 }
 
 function SitdWhoDidIt::step1Timeout(%script)
 {
-    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer took too long to kill.");
-
     %script.waitingForKill = "";
     %script.killerPlayer.unMountImage("0");
     fixArmReady(%script.killerPlayer);
     sitdLightOn();
 
-    %script.killerPlayer.schedule("1500", "kill");
+    if (%script.killerWaited)
+    {
+        $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer took too long to kill.");
+        %script.killerPlayer.schedule("1500", "kill");
+    }
+    else
+    {
+        %script.killerWaited = "1";
+        $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer has chosen not to kill this round.");
+        %script.event = %script.schedule(2000, step2);
+    }
 }
 
 function SitdWhoDidIt::step2(%script)

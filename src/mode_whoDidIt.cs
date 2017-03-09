@@ -27,6 +27,7 @@ function SitdWhoDidIt::onStart(%script)
     %script.killerName = %killer.client.getPlayerName();
 
     $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Get ready...");
+    centerPrint(%killer.client, "<font:verdana:28>\c0You are the killer in this game!");
     %script.event = %script.schedule(3000, step1);
 }
 

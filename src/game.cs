@@ -85,7 +85,7 @@ function sitdPrepareGame()
 
     seatPlayers();
 
-    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Welcome to port's Shot In The Dark\nNext up: \c3" @ $DefaultMiniGame.currentMode.name);
+    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Welcome to port's Shot In The Dark\n\c6Next up: \c3" @ $DefaultMiniGame.currentMode.name);
     $DefaultMiniGame.gameSchedule = $DefaultMiniGame.currentMode.schedule(3000, onStart);
 }
 

@@ -148,7 +148,7 @@ package ShotInTheDark
 
             if (!%killerAlive && %otherAlive)
             {
-                %miniGame.centerPrintAll("<font:verdana:24>\c2The killer (\c3" @ %script.killerName @ "\c3) has been eliminated!");
+                %miniGame.centerPrintAll("<font:verdana:24>\c2The killer (\c3" @ %script.killerName @ "\c2) has been eliminated!");
                 return sitdEndGame();
             }
         }

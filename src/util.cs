@@ -1,3 +1,25 @@
+package SitdUtil
+{
+    function centerPrint(%client, %text, %time, %what, %withTimer)
+    {
+        if (!%withTimer)
+            cancel(%client.centerPrintWithTimer);
+
+        Parent::centerPrint(%client, %text, %time, %what);
+    }
+};
+
+activatePackage("SitdUtil");
+
+function centerPrintWithTimer(%client, %text, %time)
+{
+    cancel(%client.centerPrintWithTimer);
+    %timerText = "\n<font:verdana:32>\c3" @ %time @ "s";
+    centerPrint(%client, %text @ %timerText, "", "", "1");
+    if (%time > 1)
+        %client.centerPrintWithTimer = schedule("1000", %client, "centerPrintWithTimer", %client, %text, %time - 1);
+}
+
 function sitdLightOff()
 {
     $light1.setDataBlock(sitd_light_danger);

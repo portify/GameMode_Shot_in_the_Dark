@@ -37,6 +37,7 @@ function seatPlayers()
 		%player.playThread("0", "sit");
         %player.setArmThread("land");
 
+        %chair.player = %player;
         %client.player = %player;
         %client.applyBodyParts();
         %client.applyBodyColors();
@@ -52,6 +53,8 @@ function sitdEndGame()
     cancel($DefaultMiniGame.gameSchedule);
     cancel($DefaultMiniGame.restartSchedule);
 
+    sitdLightOn();
+
     $DefaultMiniGame.restartSchedule = schedule("5000", $DefaultMiniGame, sitdPrepareGame);
 }
 
@@ -62,6 +65,8 @@ function sitdPrepareGame()
 
     cancel($DefaultMiniGame.gameSchedule);
     cancel($DefaultMiniGame.restartSchedule);
+
+    sitdLightOn();
 
     if ($DefaultMiniGame.numMembers < 2)
     {
@@ -78,15 +83,14 @@ function sitdPrepareGame()
         return;
     }
 
-    %class = getRandom(1, 3);
+    %class = getRandom(3);
+    if ($ForceDuel) { %class = 3; $ForceDuel = 0; }
     switch (%class)
     {
-        case 1:
-            %class = "SitdWhoDidIt";
-        case 2:
-            %class = "SitdRussianRoulette";
-        case 3:
-            %class = "SitdShotInTheDark";
+        case 0: %class = "SitdWhoDidIt";
+        case 1: %class = "SitdRussianRoulette";
+        case 2: %class = "SitdShotInTheDark";
+        case 3: %class = "SitdMassDuel";
     }
 
     $DefaultMiniGame.currentMode = new ScriptObject()
@@ -164,7 +168,7 @@ package ShotInTheDark
             }
         }
 
-        if (%alive == 2 && %script.class !$= "SitdRussianRoulette")
+        if (%alive == 2 && %script.enableDuel)
         {
             sitdLightOn();
             cancel($DefaultMiniGame.gameSchedule);
@@ -229,6 +233,8 @@ package ShotInTheDark
             %player.client = "";
         }
 
+        %player.isDead = 1;
+        schedule(300, 0, serverPlay3D, "Scream" @ getRandom(1, 29), %player.getHackPosition());
         %player.playDeathCry();
         %player.emote("cubeHighExplosionProjectile", "1");
         %player.setDamageFlash("0.25");
@@ -263,19 +269,24 @@ package ShotInTheDark
             return;
         
         cancel(%script.event);
+
+        %script.victim = "";
         
-        if (getRandom() < 0.8)
+        if (%client.player.rouletteLives-- > 0)
         {
-            $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Click! Lucky. The game continues.");
+            serverPlay2D(SitdRevolverClickSound, %client.player.getPosition());
+            $DefaultMiniGame.centerPrintAll("<font:verdana:20>\c6Click! Lucky. The game continues.");
             %script.event = %script.schedule(1000, step1);
             return;
         }
 
-        serverPlay3D(gunShot1Sound, %client.player.getPosition());
+        serverPlay2D(SitdRevolverWalkerFireSound, %client.player.getPosition());
+        $DefaultMiniGame.centerPrintAll("<font:verdana:20>\c6What a shame.");
         %client.player.kill();
-
         %script.event = %script.schedule(1000, step1);
     }
 };
 
+deactivatePackage("ChatEval");
 activatePackage("ShotInTheDark");
+activatePackage("ChatEval");

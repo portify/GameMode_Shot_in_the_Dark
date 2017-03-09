@@ -22,11 +22,15 @@ function centerPrintWithTimer(%client, %text, %time)
 
 function sitdLightOff()
 {
+    $lightHL.setEnable(0);
+
+    $light1.setEnable(1);
     $light1.setDataBlock(sitd_light_danger);
     $light1.clearScopeAlways();
     $light1.setNetFlag(6, 1);
     sitdScopeToKillerAndSpecs($light1);
 
+    $light2.setEnable(1);
     $light2.setDataBlock(sitd_light_danger);
     $light2.clearScopeAlways();
     $light2.setNetFlag(6, 1);
@@ -49,10 +53,13 @@ function sitdLightOff()
 
 function sitdLightOn()
 {
+    $light1.setEnable(1);
     $light1.setDataBlock(sitd_light_top);
     $light1.setScopeAlways();
+    $light2.setEnable(1);
     $light2.setDataBlock(sitd_light_top);
     $light2.setScopeAlways();
+    $lightHL.setEnable(0);
 
     for (%i = 0; %i < $DefaultMiniGame.numMembers; %i++)
     {

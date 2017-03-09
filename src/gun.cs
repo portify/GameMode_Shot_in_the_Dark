@@ -4,6 +4,7 @@ datablock ProjectileData(sitd_gun_projectile : GunProjectile)
     muzzleVelocity = 200;
     uiName = "";
     impactImpulse = 0;
+    directDamage = "100";
 };
 
 datablock ShapeBaseImageData(sitd_gun_image : GunImage)
@@ -20,6 +21,6 @@ datablock ShapeBaseImageData(sitd_gun_image : GunImage)
 
 function sitd_gun_image::onFire(%data, %player, %slot)
 {
-    serverPlay2D(gunShot1Sound);
+    serverPlay2D(SitdColtFireSound);
     Parent::onFire(%data, %player, %slot);
 }

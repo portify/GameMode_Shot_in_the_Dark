@@ -3,6 +3,7 @@ ADDON Print_1x2f_Default
 ADDON Print_2x2f_Default
 ADDON Print_2x2r_Default
 ADDON Server_VoxelGoreModified
+ADDON Sound_007DeathYells
 ADDON Weapon_Gun
 ADDON Weapon_Sword
 ADDON GameMode_Shot_in_the_Dark

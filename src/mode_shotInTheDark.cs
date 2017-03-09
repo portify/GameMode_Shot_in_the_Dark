@@ -2,6 +2,7 @@
 function SitdShotInTheDark::onAdd(%script)
 {
 	%script.name = "Shot In The Dark";
+	%script.enableDuel = true;
 }
 
 function SitdShotInTheDark::onRemove(%script)

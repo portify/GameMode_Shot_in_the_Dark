@@ -1,6 +1,7 @@
 function SitdWhoDidIt::onAdd(%script)
 {
 	%script.name = "Who Did It?";
+	%script.enableDuel = true;
 }
 
 function SitdWhoDidIt::onRemove(%script)

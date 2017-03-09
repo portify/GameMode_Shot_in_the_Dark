@@ -140,8 +140,8 @@ function SitdWhoDidIt::step3(%script)
     else
         $DefaultMiniGame.centerPrintAll("<font:verdana:20>\c6Nobody voted. Unfortunate for everyone but the killer. Let's go again.");
 
-    if (!isObject($DefaultMiniGame.currentMode)) // HACK: if the person that was killed was the killer, don't continue
-        return; // should be cleaned up somehow
+    if (%script.inDuel) // clean this up
+        return;
 
     %script.event = %script.schedule(2000, step1);
 }

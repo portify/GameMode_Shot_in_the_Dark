@@ -159,6 +159,7 @@ package ShotInTheDark
             cancel($DefaultMiniGame.gameSchedule);
             cancel(%script.event);
             %script.waitingForKill = "";
+            %script.inDuel = "1";
             %miniGame.centerPrintAll("<font:verdana:36><color:f07070>Duel!");
 
             for (%i = 0; %i < %miniGame.numMembers; %i++)

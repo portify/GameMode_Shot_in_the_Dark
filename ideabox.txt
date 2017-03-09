@@ -1,0 +1,17 @@
+Plastiware: I had an idea for how to do a more "realistic" mafia game
+Plastiware: I watched The Godfather and it gave me some ideas
+Plastiware: Mobsters don't just go around killing innocents, they're two families at war with each other
+Plastiware: So the idea is there would be four teams: Family A, Family B, Innocents, and Police
+Plastiware: This means it would require at least four players to play
+Plastiware: The Families can identify each other.  They can look at any player and know which family they're from, or if they're just an innocent bystander or police officer.  They win if all the members of the opposing family AND the police are killed.  This means they're fighting against each other, but it's in their best interest to gang up on the police.
+Plastiware: Killing innocents carries a penalty for all players (haven't decided WHAT penalty, but y'know)
+Jack Noir: dude that sounds cool as balls
+Plastiware: Innocents and police are allied.  They can only identify police, everyone else just appears as "civilian", so they can't identify families.  The police are a bit corrupt, and their goal is to simply kill all the members of both mob families.
+Plastiware: So in a simple four-player game it'd work like this:
+Plastiware: Player 1, 2, 3, and 4 are Family A, Family B, Innocent, and Cop respectively
+Plastiware: Player 1's goal is to kill Player 2 and Player 4 without arousing the suspicions of either Players 3 or 4
+Plastiware: Player 2's goal is to kill Player 1 and Player 4 without arousing the suspicions of either Players 3 or 4
+Plastiware: Player 3's goal is to convince Player 4 that the other two players are the mobsters.
+Plastiware: Player 4's goal is to identify Players 1 and 2 and kill them.
+Plastiware: All four players will suffer if Player 3 dies
+Plastiware: I don't know how well it'd work in practice, but it seems like an interesting dynamic, anyway

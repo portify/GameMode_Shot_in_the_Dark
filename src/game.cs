@@ -35,6 +35,7 @@ function seatPlayers()
         // %player.setShapeName("", "8564862");
 		%player.setTransform(%chair.getSlotTransform("0"));
 		%player.playThread("0", "sit");
+        %player.setArmThread("land");
 
         %client.player = %player;
         %client.applyBodyParts();
@@ -77,11 +78,20 @@ function sitdPrepareGame()
         return;
     }
 
+    %class = getRandom(1, 3);
+    switch (%class)
+    {
+        case 1:
+            %class = "SitdWhoDidIt";
+        case 2:
+            %class = "SitdRussianRoulette";
+        case 3:
+            %class = "SitdShotInTheDark";
+    }
+
     $DefaultMiniGame.currentMode = new ScriptObject()
     {
-        class = "SitdWhoDidIt";
-        // class = "SitdRussianRoulette";
-        // class = "SitdShotInTheDark";
+        class = %class;
     };
 
     seatPlayers();
@@ -173,6 +183,7 @@ package ShotInTheDark
                 %player.changeDataBlock(sitd_move_player);
                 %player.playThread("0", "root");
                 %player.mountImage("SwordImage", "0");
+                %player.setArmThread("look");
                 fixArmReady(%player);
             }
 

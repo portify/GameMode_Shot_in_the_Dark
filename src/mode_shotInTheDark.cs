@@ -19,6 +19,7 @@ function SitdShotInTheDark::onStart(%script)
 
 function SitdShotInTheDark::step1(%script)
 {
+	cancel(%script.event);
 	if(%script.killerPlayer)
 	{
 		%script.waitingForKill = "";
@@ -32,7 +33,7 @@ function SitdShotInTheDark::step1(%script)
 		%client = $DefaultMiniGame.member[%i];
 		%player = %client.player;
 
-		if (%player.chair !$= "")
+		if (%player.chair !$= "" && %player != %script.killerPlayer)
 			%player[%maxPlayer++] = %player;
 	}
 
@@ -42,50 +43,67 @@ function SitdShotInTheDark::step1(%script)
 	%script.killerName = %killer.client.getPlayerName();
 
 	%script.waitForPrompt = true;
+	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer is choosing how to kill.");
 	centerPrint(%script.killerClient, "<font:verdana:24>\c6Kill in secret?\n\c2Left Click\c6 - Kill in Darkness, \c0Right Click\c6 - Kill in Public");
+	%script.dark = 1;
 	%script.event = %script.schedule(5000, step2, 1);
 }
 
 function SitdShotInTheDark::onDeath(%script)
 {
 	if (%script.waitingForKill)
-		%script.step1();
+		%script.step2Timeout(%kill);
 }
 
-function SitdShotInTheDark::step2(%script, %dark)
+function SitdShotInTheDark::step2(%script)
 {
 	if (%script.inDuel) // clean this up
 		return;
 
 	%script.waitForPrompt = false;
 	cancel(%script.event);
-	if(%dark)
+	if(%script.dark)
 		sitdLightOff();
 
 	%script.waitingForKill = "1";
 	%script.killerPlayer.mountImage(sitd_gun_image, "0");
 	fixArmReady(%script.killerPlayer);
 
-	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer is choosing somebody to kill.");	
+	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer is choosing somebody to kill.");
 	centerPrint(%script.killerClient, "<font:verdana:24>\c0You have 10 seconds to kill somebody.");
 
-	%script.event = %script.schedule(10000, step2Timeout);
+	%script.event = %script.schedule(10000, step2Timeout, 1);
 }
 
-function SitdShotInTheDark::step2Timeout(%script)
+function SitdShotInTheDark::step2Timeout(%script, %kill)
 {
+	cancel(%script.event);
+	if (%script.inDuel) // clean this up
+		return;
+
 	%script.waitingForKill = "";
 	%script.killerPlayer.unMountImage(0);
 	fixArmReady(%script.killerPlayer);
 	sitdLightOn();
-
-	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer took too long to kill.");
-	%script.killerPlayer.schedule(1500, "kill");
-	%script.event = %script.schedule(2000, step1);
+	if(%kill)
+	{
+		$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer took too long to kill.");
+		%script.killerPlayer.schedule(1500, "kill");
+	}
+	$DefaultMiniGame.centerPrintAll("");
+	%script.event = %script.schedule(5000, step1);
 }
 
 package SitdShotInTheDark
 {
+	function Player::playThread(%this, %slot, %sequenceName)
+	{
+		%script = $DefaultMiniGame.currentMode;
+		if(%script.class $= "SitdShotInTheDark" && %sequenceName $= "activate")
+			return;
+		Parent::playThread(%this, %slot, %sequenceName);
+	}
+
 	function Armor::onTrigger(%this, %obj, %trig, %tog)
 	{
 		Parent::onTrigger(%this, %obj, %trig, %tog);
@@ -95,8 +113,16 @@ package SitdShotInTheDark
 		if(!%script.waitForPrompt || %script.killerPlayer != %obj)
 			return;
 		if(%trig == 0 && %tog) //click
-			%script.step2(1);
-		else if(%trig == 4 && %tog)
-			%script.step2(0);
+		{
+			%script.dark = 1;
+			%script.waitForPrompt = false;
+			centerPrint(%script.killerClient, "<font:verdana:24>\c6You decided to \c2Kill in Darkness\c6.");
+		}
+		else if(%trig == 4 && %tog) //rightclick
+		{
+			%script.dark = 0;
+			%script.waitForPrompt = false;
+			centerPrint(%script.killerClient, "<font:verdana:24>\c6You decided to \c0Kill in Public\c6.");
+		}
 	}
 };

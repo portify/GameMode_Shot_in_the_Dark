@@ -13,7 +13,7 @@ function SitdShotInTheDark::onRemove(%script)
 function SitdShotInTheDark::onStart(%script)
 {
 	activatePackage("SitdShotInTheDark");
-	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Get ready...");
+	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6It's time to make or break your trust, because it's time for everybody to be a killer.");
 	%script.event = %script.schedule(3000, step1);
 }
 

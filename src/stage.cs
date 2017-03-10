@@ -34,7 +34,8 @@ function createStage()
 	createShape(sitd_cube, "0 20 8", "", "32 0.2 16").hideNode("ALL");
 	createShape(sitd_cube, "-16 8 8", "", "0.2 24 16").hideNode("ALL");
 	createShape(sitd_cube, "16 8 8", "", "0.2 24 16").hideNode("ALL");
-	createShape(sitd_table, "-0.15 8 1.95");
+	// createShape(sitd_table, "-0.15 8 1.95");
+	$table = createShape(sitd_cylinder2);
 	$chair0 = createShape(sitd_chair, "-4 0 0.2");
 	$chair1 = createShape(sitd_chair, "0 0 0.2");
 	$chair2 = createShape(sitd_chair, "4 0 0.2");

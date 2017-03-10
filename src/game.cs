@@ -32,7 +32,66 @@ function seatPlayers()
             killer = "0";
         };
 
-        %player.setShapeName(%client.name, "8564862");
+        // %player.setShapeName(%client.name, "8564862");
+        %player.setShapeNameColor("0.5 1 0.5");
+		%player.setTransform(%chair.getSlotTransform("0"));
+		%player.playThread("0", "sit");
+        %player.setArmThread("land");
+
+        %chair.player = %player;
+        %client.player = %player;
+        %client.applyBodyParts();
+        %client.applyBodyColors();
+        %client.setControlObject(%player);
+	}
+}
+
+function seatPlayers()
+{
+    %clientCount = $DefaultMiniGame.numMembers;
+	for (%i = 0; %i < %clientCount; %i++)
+        %client[%i] = $DefaultMiniGame.member[%i];
+
+    %i = %clientCount;
+    while (%i--)
+	{
+		%j = getRandom(%i);
+		%x = %client[%i - 1];
+		%client[%i - 1] = %client[%j];
+		%client[%j] = %x;
+	}
+
+    for (%i = 0; %i < 16; %i++)
+        $chair[%i].setTransform("0 0 -300");
+    
+    %radius = getMax(2, %clientCount * 0.5);
+    %scale = %radius + 2;
+    $table.setTransform("0 8 1.95");
+    $table.setScale(%scale SPC %scale SPC 0.25);
+    for (%i = 0; %i < %clientCount; %i++)
+    {
+        %angle = $m2pi * (%i / %clientCount);
+        %x = mCos(%angle) * %radius;
+        %y = 8 + mSin(%angle) * %radius;
+        $chair[%i].setTransform(%x SPC %y SPC "0.2 0 0 -1" SPC (%angle + $piOver2));
+
+        %client = %client[%i];
+
+        if (%client.player)
+            %client.player.delete();
+        
+        %index = %i;
+        %chair = $chair[%index];
+
+        %player = new Player()
+        {
+            datablock = sitd_fixed_player;
+            client = %client;
+            chair = %index;
+            killer = "0";
+        };
+
+        // %player.setShapeName(%client.name, "8564862");
         %player.setShapeNameColor("0.5 1 0.5");
 		%player.setTransform(%chair.getSlotTransform("0"));
 		%player.playThread("0", "sit");
@@ -93,6 +152,7 @@ function sitdPrepareGame()
         case 2: %class = "SitdShotInTheDark";
         case 3: %class = "SitdMassDuel";
     }
+    // %class = "SitdWerewolf";
 
     $DefaultMiniGame.currentMode = new ScriptObject()
     {

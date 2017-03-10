@@ -22,9 +22,9 @@ datablock StaticShapeData(sitd_table)
 	shapeFile = "Add-Ons/GameMode_Shot_in_the_Dark/data/table.dts";
 };
 
-datablock StaticShapeData(sitd_cylinder)
+datablock StaticShapeData(sitd_cylinder2)
 {
-	shapeFile = "Add-Ons/GameMode_Shot_in_the_Dark/data/cylinder.dts";
+	shapeFile = "Add-Ons/GameMode_Shot_in_the_Dark/data/cylinder2.dts";
 };
 
 datablock fxLightData(sitd_light_top : PlayerLight)
@@ -81,4 +81,32 @@ datablock PlayerData(sitd_fixed_player : PlayerStandardArmor)
 	// underwater...
 	runForce = "0";
 	uiName = "";
+};
+
+datablock ParticleData(SitdCdGodfatherParticle)
+{
+	lifetimeMS = 500;
+	textureName = "Add-Ons/GameMode_Shot_In_The_Dark/data/images/gc_godfather";
+	times[0] = 0;
+	times[1] = 0.1;
+	times[2] = 0.2;
+	times[3] = 1;
+	sizes[0] = 1;
+	sizes[1] = 1;
+	sizes[2] = 1;
+	sizes[3] = 1;
+	colors[0] = "1 1 1 1";
+	colors[1] = "1 1 1 1";
+	colors[2] = "1 1 1 1";
+	colors[3] = "1 1 1 1";
+};
+
+datablock ParticleEmitterData(SitdCdGodfatherEmitter)
+{
+	particles = SitdCdGodfatherParticle;
+	ejectionPeriodMS = 500;
+	ejectionVelocity = 0;
+	velocityVariance = 0;
+	phiVariance = 0;
+	thetaMax = 0;
 };

@@ -354,31 +354,62 @@ function SitdWerewolf::step16(%script)
             $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Someone has been saved by the Doctor. Nobody died tonight.");
         else
         {
+            %script.werewolfKillVote.schedule("0", "kill");
             $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c0Somebody has been killed.");
-            %script.werewolfKillVote.schedule("300", "kill");
         }
     }
     else
         $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Nobody was killed tonight.");
     
     %script.doctorDidSave = "";
-    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Discuss?", 3);
-    %script.event = %script.schedule("30000", "step17");
+    %script.event = %script.schedule("2000", "step17");
 }
 
-function SitdWerewolf::step17(%script)
+function SitdWErewolf::step17(%script)
 {
-    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6I haven't implemented lynching yet, so you're a bit screwed.");
-    %script.event = %script.schedule("3000", "step18");
+    %werewolfCount = 0;
+    %villagerCount = 0;
+
+    for (%i = 0; %i < $DefaultMiniGame.numMembers; %i++)
+    {
+        %member = $DefaultMiniGame.member[%i];
+        %player = %member.player;
+
+        if (%player.werewolf)
+            %werewolfCount++;
+        else if (%player.chair !$= "")
+            %villagerCount++;
+    }
+
+    if (%villagerCount && !%werewolfCount)
+    {
+        $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The Villagers win.");
+        return sitdEndGame();
+    }
+
+    if (!%villagerCount && %werewolfCount)
+    {
+        $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The Werewolves win.");
+        return sitdEndGame();
+    }
+
+    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6Discuss?", 3);
+    %script.event = %script.schedule("30000", "step18");
 }
 
 function SitdWerewolf::step18(%script)
 {
-    $DefaultMiniGame.centerPrintAll("It's nighttime. Everyone go to sleep.");
-    %script.event = %script.schedule("500", "step19");
+    $DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6I haven't implemented lynching yet, so you're a bit screwed.");
+    %script.event = %script.schedule("3000", "step19");
 }
 
 function SitdWerewolf::step19(%script)
+{
+    $DefaultMiniGame.centerPrintAll("It's nighttime. Everyone go to sleep.");
+    %script.event = %script.schedule("500", "step20");
+}
+
+function SitdWerewolf::step20(%script)
 {
     %script.disableChat = "1";
     sitdLightOff();

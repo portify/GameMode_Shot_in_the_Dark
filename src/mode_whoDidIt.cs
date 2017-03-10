@@ -93,7 +93,6 @@ function SitdWhoDidIt::step2(%script)
 
 		if (%player.chair !$= "")
 		{
-			%player.voteCount = "0";
 			%player.voteTarget = "0";
 			%player.canReceiveVote = "1";
 			%player.canCastVote = "1";
@@ -112,26 +111,34 @@ function SitdWhoDidIt::step3(%script)
 	{
 		%client = $DefaultMiniGame.member[%i];
 		%player = %client.player;
-		if(!isObject(%player))
-			continue;
-		%player.playThread(1, root);
+
 		if (%player.canCastVote)
 		{
-			if (%highestVotes !$= "" && %player.voteCount $= %highestVotes)
+			%votes[%player.voteTarget]++;
+			%player.playThread(1, root);
+			cancel(%player.sitdWhoUpdateCastVote);
+			%player.canCastVote = "";
+			%player.voteTarget = "";
+		}
+	}
+
+	for (%i = 0; %i < $DefaultMiniGame.numMembers; %i++)
+	{
+		%client = $DefaultMiniGame.member[%i];
+		%player = %client.player;
+		
+		if (%player.canReceiveVote)
+		{
+			if (%highestVotes !$= "" && %votes[%player] $= %highestVotes)
 				%tie = 1;
-			else if (%highestVotes $= "" || %player.voteCount > %highestVotes)
+			else if (%highestVotes $= "" || %votes[%player] > %highestVotes)
 			{
 				%tie = 0;
-				%highestVotes = %player.voteCount;
+				%highestVotes = %votes[%player];
 				%unfortunate = %player;
 			}
 
-			cancel(%player.sitdWhoUpdateCastVote);
-			%player.voteTarget = "";
 			%player.canReceiveVote = "";
-			%player.canCastVote = "";
-			%player.voteCount = "";
-			%player.setShapeName("", "8564862");
 		}
 	}
 
@@ -167,23 +174,7 @@ function sitdWhoUpdateCastVote(%player)
 
 	if (%col && !%col.canReceiveVote)
 		%col = "0";
-
-	if (%col !$= %player.voteTarget)
-	{
-		if (isObject(%player.voteTarget))
-		{
-			%player.voteTarget.voteCount--;
-			%player.voteTarget.setShapeName(%player.voteTarget.voteCount ? %player.voteTarget.voteCount : "", "8564862");
-		}
-
-		%player.voteTarget = %col;
-
-		if (isObject(%player.voteTarget))
-		{
-			%player.voteTarget.voteCount++;
-			%player.voteTarget.setShapeName(%player.voteTarget.voteCount ? %player.voteTarget.voteCount : "", "8564862");
-		}
-	}
-
+	
+	%player.voteTarget = %col;
 	%player.sitdWhoUpdateCastVote = schedule(32, %player, "sitdWhoUpdateCastVote", %player);
 }

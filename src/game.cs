@@ -32,7 +32,8 @@ function seatPlayers()
             killer = "0";
         };
 
-        // %player.setShapeName("", "8564862");
+        %player.setShapeName(%client.name, "8564862");
+        %player.setShapeNameColor("0.5 1 0.5");
 		%player.setTransform(%chair.getSlotTransform("0"));
 		%player.playThread("0", "sit");
         %player.setArmThread("land");

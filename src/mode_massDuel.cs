@@ -61,7 +61,7 @@ function SitdMassDuel::step3(%script)
         if (!%player || %player.chair $= "")
             continue;
         
-        %player.mountImage("SwordImage", "0");
+        %player.mountImage("GunImage", "0");
         fixArmReady(%player);
     }
 }

@@ -143,14 +143,13 @@ function sitdPrepareGame()
         return;
     }
 
-    %class = getRandom(3);
+    %class = getRandom(2);
     if ($ForceDuel) { %class = 3; $ForceDuel = 0; }
     switch (%class)
     {
         case 0: %class = "SitdWhoDidIt";
         case 1: %class = "SitdRussianRoulette";
         case 2: %class = "SitdShotInTheDark";
-        case 3: %class = "SitdMassDuel";
     }
     // %class = "SitdWerewolf";
 
@@ -311,40 +310,15 @@ package ShotInTheDark
     {
         if (%client.miniGame != $DefaultMiniGame)
             Parent::serverCmdLight(%client);
+        %script = $DefaultMiniGame.currentMode;
+        if(isFunction(%script.class, "onLight"))
+            %script.onLight(%client);
     }
 
     function serverCmdSuicide(%client)
     {
         if (%client.miniGame != $DefaultMiniGame)
             return Parent::serverCmdSuicide(%client);
-
-        %script = $DefaultMiniGame.currentMode;
-        
-        if (%script.class !$= "SitdRussianRoulette")
-            return;
-        
-        if (!isObject(%script.victim))
-            return;
-        
-        if (%client.player !$= %script.victim)
-            return;
-        
-        cancel(%script.event);
-
-        %script.victim = "";
-        
-        if (%client.player.rouletteLives-- > 0)
-        {
-            serverPlay2D(SitdRevolverClickSound, %client.player.getPosition());
-            $DefaultMiniGame.centerPrintAll("<font:verdana:20>\c6Click! Lucky. The game continues.");
-            %script.event = %script.schedule(1000, step1);
-            return;
-        }
-
-        serverPlay2D(SitdRevolverWalkerFireSound, %client.player.getPosition());
-        $DefaultMiniGame.centerPrintAll("<font:verdana:20>\c6What a shame.");
-        %client.player.kill();
-        %script.event = %script.schedule(1000, step1);
     }
 };
 

@@ -23,6 +23,7 @@ function SitdShotInTheDark::step1(%script)
 	cancel(%script.event);
 	if(%script.killerPlayer)
 	{
+		%script.killerPlayer.killer = 0;
 		%script.waitingForKill = "";
 		%script.killerPlayer.unMountImage(0);
 		fixArmReady(%script.killerPlayer);
@@ -39,6 +40,7 @@ function SitdShotInTheDark::step1(%script)
 	}
 
 	%killer = %player[getRandom(%maxPlayer)];
+	%killer.killer = "1";
 	%script.killerPlayer = %killer;
 	%script.killerClient = %killer.client;
 	%script.killerName = %killer.client.getPlayerName();
@@ -53,7 +55,12 @@ function SitdShotInTheDark::step1(%script)
 function SitdShotInTheDark::onDeath(%script)
 {
 	if (%script.waitingForKill)
-		%script.step2Timeout(%kill);
+		%script.step2Timeout(0);
+}
+
+function SitdShotInTheDark::onGunFire(%script, %image, %obj)
+{
+	return 1;
 }
 
 function SitdShotInTheDark::step2(%script)
@@ -63,17 +70,21 @@ function SitdShotInTheDark::step2(%script)
 
 	%script.waitForPrompt = false;
 	cancel(%script.event);
+	%time = 20000;
 	if(%script.dark)
+	{
 		sitdLightOff();
+		%time = 10000;
+	}
 
 	%script.waitingForKill = "1";
 	%script.killerPlayer.mountImage(sitd_gun_image, "0");
 	fixArmReady(%script.killerPlayer);
 
 	$DefaultMiniGame.centerPrintAll("<font:verdana:24>\c6The killer is choosing somebody to kill.");
-	centerPrint(%script.killerClient, "<font:verdana:24>\c0You have 10 seconds to kill somebody.");
+	centerPrint(%script.killerClient, "<font:verdana:24>\c0You have " @ %time/1000 @ " seconds to kill somebody.");
 
-	%script.event = %script.schedule(10000, step2Timeout, 1);
+	%script.event = %script.schedule(%time, step2Timeout, 1);
 }
 
 function SitdShotInTheDark::step2Timeout(%script, %kill)
